@@ -1,0 +1,14 @@
+python=3.8
+numpy
+matplotlib
+pandas
+pillow
+bokeh
+torchvision
+tqdm
+ipywidgets
+jupyter
+streamlit
+streamlit-drawable-canvas
+livelossplot
+pytorch
