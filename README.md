@@ -1,126 +1,156 @@
-## **Project Overview**
-This project demonstrates the development of a neural network for classifying handwritten digits from the MNIST dataset. The MNIST dataset is a popular benchmark in the field of machine learning and computer vision, consisting of grayscale images of digits (0–9).
+# MNIST Digit Classifier with Streamlit
 
-Key tasks include:
-- Loading and preprocessing the dataset.
-- Building and training a neural network in PyTorch.
-- Evaluating model performance on unseen test data.
-- Enhancing performance through validation and architectural improvements.
-- Saving the trained model for future use.
+This project implements a neural network to classify handwritten digits from the [MNIST dataset](http://yann.lecun.com/exdb/mnist/). The classifier is trained using PyTorch, and a [Streamlit](https://streamlit.io/) web application is provided to allow users to either upload an image or draw a digit and receive real-time predictions.
 
----
+## Table of Contents
 
-## **Features**
-1. **Data Loading and Exploration**:
-   - Utilizes `torchvision.datasets` to load the MNIST dataset.
-   - Preprocesses data with normalization and tensor conversion.
-   - Displays sample images to understand the dataset visually.
-   - Splits the training data into training and validation subsets (80-20 split).
+- [Overview](#overview)
+- [Features](#features)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Training the Model](#training-the-model)
+- [Running the Streamlit App](#running-the-streamlit-app)
+- [Usage](#usage)
+- [Preprocessing & Model Architecture](#preprocessing--model-architecture)
+- [Dependencies](#dependencies)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-2. **Model Design and Training**:
-   - Implements a feedforward neural network with multiple hidden layers.
-   - Improves accuracy by upgrading to a Convolutional Neural Network (CNN).
-   - Uses `CrossEntropyLoss` as the loss function and `Adam` optimizer for effective training.
-   - Tracks training and validation loss/accuracy to monitor model performance.
+## Overview
 
-3. **Model Evaluation**:
-   - Achieves over 90% test accuracy.
-   - Compares results with benchmarks on Yann LeCun’s MNIST research page.
+The MNIST Digit Classifier project uses an improved fully connected neural network (`ImprovedMNISTNet`) to achieve high accuracy on the MNIST dataset. The project includes:
 
-4. **Model Saving**:
-   - Saves the trained model parameters using `torch.save` for future reuse.
+- **Model Training:** A complete training pipeline with data loading, preprocessing, model definition, training, and evaluation.
+- **Web Interface:** A Streamlit app (`app.py`) that allows users to interact with the trained model by either uploading a digit image or drawing one on a canvas.
+- **Model Saving & Loading:** After training, the model’s weights are saved to `mnist_model.pth` and later loaded by the Streamlit app for inference.
 
----
+## Features
 
-## **Repository Link**
-This project is hosted on GitHub:  
-[MNIST Handwritten Digits (Udacity)](https://github.com/dustinober1/MNIST_Handwritten_Digits_Udacity)
+- **Neural Network Classifier:** Custom-built neural network with multiple fully connected layers.
+- **Data Preprocessing:** Conversion of images to tensors, grayscale conversion, resizing to 28×28 pixels, and normalization.
+- **Interactive Streamlit App:** Users can upload digit images or draw their own digits using an integrated drawing canvas.
+- **Real-time Predictions:** The app displays the predicted digit along with a bar chart of confidence scores for each class.
 
----
+## Project Structure
 
-## **Getting Started**
-Follow these steps to reproduce the project:
+```plaintext
+├── app.py                # Streamlit application for digit classification
+├── train_model.ipynb     # Jupyter Notebook (or script) used to train the model
+├── mnist_model.pth       # Saved model weights after training
+├── requirements.txt      # List of Python dependencies
+└── README.md             # This file
+```
 
-### **Prerequisites**
-- Python 3.7+
-- Required Libraries: 
-  - PyTorch
-  - torchvision
-  - matplotlib
-  - numpy
-- Install dependencies via:
-  ```bash
-  pip install -r requirements.txt
-  ```
+## Installation
 
-### **Running the Notebook**
-1. **Clone or Download the Repository**:
+1. **Clone the Repository:**
+
    ```bash
-   git clone https://github.com/dustinober1/MNIST_Handwritten_Digits_Udacity.git
-   cd MNIST_Handwritten_Digits_Udacity
+   git clone https://github.com/yourusername/mnist-digit-classifier.git
+   cd mnist-digit-classifier
    ```
 
-2. **Run the Jupyter Notebook**:
-   Open the `.ipynb` file in Jupyter Notebook or Jupyter Lab:
+2. **Set Up a Virtual Environment (Optional but Recommended):**
+
    ```bash
-   jupyter notebook mnist_project.ipynb
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: venv\Scripts\activate
    ```
 
-3. **Train the Model**:
-   Execute all cells sequentially. Training progress and results will be displayed inline.
+3. **Install Dependencies:**
 
----
+   Make sure you have Python 3.7 or higher installed. Then install the required packages:
 
-## **Details of Implementation**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### **1. Data Preprocessing**
-- **Transforms**:
-  - `ToTensor()`: Converts images to tensors.
-  - `Normalize((0.5,), (0.5,))`: Normalizes pixel values to the range [-1, 1].
-- **Dataset Splits**:
-  - Training (80% of train dataset).
-  - Validation (20% of train dataset).
-  - Test dataset remains untouched for evaluation.
+   *Note:* The `requirements.txt` should include packages such as:
+   - `torch`
+   - `torchvision`
+   - `streamlit`
+   - `streamlit-drawable-canvas`
+   - `Pillow`
+   - `matplotlib`
+   - etc.
 
-### **2. Model Architectures**
-- **Feedforward Neural Network**:
-  - A baseline model with three linear layers and ReLU activations.
-  - Achieves over 90% test accuracy.
+## Training the Model
 
-- **Convolutional Neural Network (CNN)**:
-  - Uses convolutional and pooling layers for feature extraction.
-  - Achieves improved accuracy and generalization.
+1. **Download the MNIST Dataset:**  
+   The training script (or notebook) automatically downloads the MNIST dataset using `torchvision.datasets.MNIST` with `download=True`.
 
-### **3. Hyperparameter Tuning**
-- Learning rate adjustments, deeper architectures, and more epochs were explored to optimize performance.
+2. **Run the Training Notebook/Script:**
 
-### **4. Evaluation Metrics**
-- **Accuracy**: The percentage of correctly predicted digits.
-- **Loss**: Tracks model performance during training and validation.
+   If using the provided Jupyter Notebook (`train_model.ipynb`), run through the cells to:
+   - Define transforms and create data loaders.
+   - Define and train the `ImprovedMNISTNet` model.
+   - Evaluate the model’s performance on the test set.
+   - Save the trained model weights to `mnist_model.pth` using:
 
----
+   ```python
+   torch.save(model.state_dict(), "mnist_model.pth")
+   ```
 
-## **Results**
-1. **Test Accuracy**: 
-   - Baseline Feedforward Model: ~97%.
-   - Convolutional Neural Network: Achieved improved performance with test accuracy >95%.
+## Running the Streamlit App
 
-2. **Contextualization**:
-   - Compared to benchmarks:
-     - 88% (LeCun et al., 1998): Classical methods.
-     - 99.65% (Ciresan et al., 2011): State-of-the-art CNNs.
-   - This project demonstrates effective usage of PyTorch to build competitive models on MNIST.
+Once the model is trained and the weights are saved, you can run the web interface.
 
----
+1. **Start the Streamlit App:**
 
-## **Future Work**
-1. Explore advanced architectures such as ResNet or MobileNet.
-2. Experiment with data augmentation to enhance generalization.
-3. Implement early stopping and learning rate scheduling.
-4. Deploy the model as a web or mobile application for real-time digit recognition.
+   ```bash
+   streamlit run app.py
+   ```
 
----
+2. **Interact with the App:**
+   - **Upload Image:** Use the file uploader to select and display an image of a handwritten digit.
+   - **Draw Digit:** Use the integrated drawing canvas to sketch a digit. Click the "Predict Drawn Digit" button to receive predictions.
+   - The app will display the predicted digit along with a confidence score bar chart.
 
-## **Acknowledgments**
-- The MNIST dataset is provided by Yann LeCun, Corinna Cortes, and Christopher J.C. Burges.
-- Tutorials and documentation from PyTorch and torchvision were invaluable.
+## Usage
+
+- **Uploading an Image:**  
+  Click on the "Upload a digit image" button, select a PNG/JPG/JPEG image, and wait for the prediction.
+
+- **Drawing a Digit:**  
+  Use your mouse or stylus to draw a digit on the canvas. Once satisfied with your drawing, press the "Predict Drawn Digit" button. The image is preprocessed (converted to grayscale, resized to 28×28 pixels, normalized) before being fed to the model.
+
+## Preprocessing & Model Architecture
+
+### Preprocessing
+- **Grayscale Conversion:** Ensures the image has a single channel.
+- **Resizing:** Images are resized to 28×28 pixels to match the MNIST dataset.
+- **Normalization:** Pixel values are scaled to the range `[-1, 1]` using `transforms.Normalize((0.5,), (0.5,))`.
+
+### Model Architecture
+
+The `ImprovedMNISTNet` class is defined as follows:
+
+- **Input Layer:** Flattens the 28×28 image to a 784-element vector.
+- **Fully Connected Layers:**
+  - **Layer 1:** 784 → 256 neurons (with ReLU activation).
+  - **Layer 2:** 256 → 128 neurons (with ReLU activation).
+  - **Layer 3:** 128 → 64 neurons (with ReLU activation).
+  - **Output Layer:** 64 → 10 neurons (logits for each digit class 0–9).
+
+The model uses the CrossEntropyLoss function and the Adam optimizer during training.
+
+## Dependencies
+
+- **PyTorch & Torchvision:** For building and training the neural network.
+- **Streamlit:** To create the web interface.
+- **Streamlit-Drawable-Canvas:** For the drawing interface.
+- **Pillow:** For image processing.
+- **Matplotlib:** For plotting and visualization.
+- **NumPy:** For numerical operations.
+
+Ensure all dependencies are installed via `pip install -r requirements.txt`.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## Acknowledgements
+
+- **MNIST Dataset:** Provided by Yann LeCun and his collaborators.
+- **PyTorch:** For making deep learning research accessible.
+- **Streamlit:** For enabling rapid development of interactive web applications.
