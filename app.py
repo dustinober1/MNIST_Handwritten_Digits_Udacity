@@ -132,6 +132,6 @@ try:
             st.write(f"**Predicted Digit:** {prediction}")
             st.write("**Confidence Scores:**")
             st.bar_chart(probabilities)
+
 except ModuleNotFoundError:
     st.error("The module 'streamlit-drawable-canvas' is not installed. Install it to enable the drawing feature.")
-
