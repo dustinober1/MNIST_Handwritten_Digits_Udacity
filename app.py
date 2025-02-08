@@ -92,7 +92,7 @@ uploaded_file = st.file_uploader("Upload a digit image", type=["png", "jpg", "jp
 
 if uploaded_file:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+    st.image(image, caption="Uploaded Image", use_container_width=True)
     
     prediction, probabilities = predict_digit(image)
     
@@ -125,7 +125,7 @@ try:
         # Convert the canvas image (using only one channel) to a grayscale PIL image.
         drawn_image = Image.fromarray((canvas_result.image_data[:, :, 0]).astype('uint8')).convert("L")
         resized_image = drawn_image.resize((28, 28))  # Resize to 28x28 pixels as expected by the model
-        st.image(resized_image, caption="Drawn Image (Resized for Model)", use_column_width=False)
+        st.image(resized_image, caption="Drawn Image (Resized for Model)", use_container_width=False)
         
         if st.button("Predict Drawn Digit"):
             prediction, probabilities = predict_digit(resized_image)
